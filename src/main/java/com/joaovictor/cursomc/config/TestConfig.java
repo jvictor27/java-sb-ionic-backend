@@ -25,7 +25,7 @@ public class TestConfig {
 	}
 	
 	@Bean
-	public InterfaceEmailService interfaceemailService() {
+	public InterfaceEmailService interfaceEmailService() {
 		return new MockEmailService();
 	}
 }
