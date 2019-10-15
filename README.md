@@ -21,11 +21,9 @@ Um projeto para aprendizado de uma construção de uma API REST feita em Java pa
   
 ## Design Patterns
 
-**DTO** - Criação de objetos simples para trafegar pela rede.
-
-**Strategy** - “Definir uma família de algoritmos, encapsular cada uma delas e torná-las intercambiáveis. Strategy permite que o algoritmo varie independentemente dos clientes que o utilizam.”, (Gang of Four – Design Patterns)
-
-**Template Method** - “Definir o esqueleto de um algoritmo em uma operação, postergando alguns passos para as subclasses. Template Method permite que subclasses redefinam certos passos de um algoritmo sem mudar a estrutura do mesmo.”, (Gang of Four – Design Patterns)
+- DTO
+- Strategy
+- Template Method
 
 ## Funcionalidades
  - CRUD Pedidos
