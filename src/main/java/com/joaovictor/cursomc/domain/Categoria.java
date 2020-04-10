@@ -8,7 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Categoria implements Serializable {
@@ -19,8 +26,17 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy="categorias")
 	private List<Produto> produtos = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToOne
+    @JoinColumn(name = "categoria_pai_id", nullable=true)  
+	private Categoria categoriaPai;
+	
+	@OneToMany(mappedBy="categoriaPai")
+	private List<Categoria> categoriasFilhas = new ArrayList<>();
 	
 	public Categoria() {
 	}
@@ -29,6 +45,13 @@ public class Categoria implements Serializable {
 		super();
 		this.id = id;
 		this.nome = nome;
+	}
+	
+	public Categoria(Integer id, String nome, Categoria categoriaPai) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.categoriaPai = categoriaPai;
 	}
 
 	public Integer getId() {
@@ -53,6 +76,22 @@ public class Categoria implements Serializable {
 
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
+	}
+	
+	public Categoria getCategoriaPai() {
+		return categoriaPai;
+	}
+
+	public void setCategoriaPai(Categoria categoriaPai) {
+		this.categoriaPai = categoriaPai;
+	}
+	
+	public List<Categoria> getCategoriasFilhas() {
+		return categoriasFilhas;
+	}
+
+	public void setCategoriasFilhas(List<Categoria> categoriasFilhas) {
+		this.categoriasFilhas = categoriasFilhas;
 	}
 
 	@Override

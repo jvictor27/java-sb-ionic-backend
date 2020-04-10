@@ -30,6 +30,14 @@ public class CategoriaService {
 	
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
+		
+		if (obj.getCategoriaPai() != null) {
+			try {
+				obj.setCategoriaPai(find(obj.getCategoriaPai().getId()));
+			} catch (ObjectNotFoundException e) {
+				throw new ObjectNotFoundException("A categoria pai Id: " + obj.getCategoriaPai().getId() + " não existe.");
+			}
+		}
 		return repo.save(obj);
 	}
 	
@@ -58,7 +66,7 @@ public class CategoriaService {
 	}
 	
 	public Categoria fromDto(CategoriaDTO objDto) {
-		return new Categoria(objDto.getId(), objDto.getNome());
+		return new Categoria(objDto.getId(), objDto.getNome(), objDto.getCategoriaPai());
 	}
 	
 	private void updateData(Categoria newObj, Categoria obj) {
