@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,10 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.joaovictor.cursomc.domain.enums.NivelCategoria;
 
 @Entity
 public class Categoria implements Serializable {
@@ -26,34 +30,42 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome;
 	
-	@JsonIgnore
+	@Column(nullable=false)
+	private Integer nivel;
+	
+//	@JsonIgnore
 	@ManyToMany(mappedBy="categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	
-	@JsonIgnore
+//	@JsonIgnore
+//	@JsonIgnoreProperties({"categoriasFilhas", "nome", "produtos", "categoriaPai", "categoriasFilhas"})
 	@ManyToOne
     @JoinColumn(name = "categoria_pai_id", nullable=true)  
 	private Categoria categoriaPai;
 	
+//	@JsonIgnore
 	@OneToMany(mappedBy="categoriaPai")
 	private List<Categoria> categoriasFilhas = new ArrayList<>();
 	
 	public Categoria() {
 	}
 
-	public Categoria(Integer id, String nome) {
+	public Categoria(Integer id, String nome, NivelCategoria nivelCategoria) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.nivel = (nivelCategoria == null) ? null : nivelCategoria.getCod();
 	}
 	
-	public Categoria(Integer id, String nome, Categoria categoriaPai) {
+	public Categoria(Integer id, String nome, NivelCategoria nivelCategoria, Categoria categoriaPai) {
 		super();
-		this.id = id;
+		this.id = (id == null) ? null : id;
 		this.nome = nome;
-		this.categoriaPai = categoriaPai;
+		this.nivel = (nivelCategoria == null) ? null : nivelCategoria.getCod();
+		this.categoriaPai = (categoriaPai == null) ? null : categoriaPai;
 	}
 
+	@JsonGetter
 	public Integer getId() {
 		return id;
 	}
@@ -62,6 +74,7 @@ public class Categoria implements Serializable {
 		this.id = id;
 	}
 
+	@JsonGetter
 	public String getNome() {
 		return nome;
 	}
@@ -92,6 +105,14 @@ public class Categoria implements Serializable {
 
 	public void setCategoriasFilhas(List<Categoria> categoriasFilhas) {
 		this.categoriasFilhas = categoriasFilhas;
+	}
+	
+	public Integer getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(Integer nivel) {
+		this.nivel = nivel;
 	}
 
 	@Override

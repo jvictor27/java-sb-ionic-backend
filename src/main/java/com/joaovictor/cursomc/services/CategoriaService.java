@@ -11,7 +11,13 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.joaovictor.cursomc.domain.Categoria;
-import com.joaovictor.cursomc.dto.CategoriaDTO;
+import com.joaovictor.cursomc.domain.enums.NivelCategoria;
+import com.joaovictor.cursomc.domain.enums.Perfil;
+import com.joaovictor.cursomc.dto.CategoriaCompletaDTO;
+import com.joaovictor.cursomc.dto.CategoriaFilhaDTO;
+import com.joaovictor.cursomc.dto.CategoriaMostraFilhaDTO;
+import com.joaovictor.cursomc.dto.CategoriaPaiDTO;
+import com.joaovictor.cursomc.dto.CategoriaSimplesDTO;
 import com.joaovictor.cursomc.repositories.CategoriaRepository;
 import com.joaovictor.cursomc.services.exceptions.DataIntegrityException;
 import com.joaovictor.cursomc.services.exceptions.ObjectNotFoundException;
@@ -38,6 +44,7 @@ public class CategoriaService {
 				throw new ObjectNotFoundException("A categoria pai Id: " + obj.getCategoriaPai().getId() + " não existe.");
 			}
 		}
+		
 		return repo.save(obj);
 	}
 	
@@ -57,16 +64,72 @@ public class CategoriaService {
 	}
 	
 	public List<Categoria> findAll() {
-		return repo.findAll();
+		List<Categoria> objs;
+		objs = repo.findAll();
+
+		return objs;
 	}
 	
-	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String direction, String orderBy) {
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String direction, String orderBy, Integer nivel) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
+		return repo.search(nivel, pageRequest);
 	}
 	
-	public Categoria fromDto(CategoriaDTO objDto) {
-		return new Categoria(objDto.getId(), objDto.getNome(), objDto.getCategoriaPai());
+	public Categoria fromDtoCadastro(CategoriaSimplesDTO obj) {
+		
+		Categoria categoria = new Categoria();
+		categoria.setNome(obj.getNome());
+		NivelCategoria nivelCategoria = null;
+		
+		if (obj.getCategoriaPai() == null) {
+			nivelCategoria = NivelCategoria.PRIMEIRONIVEL;			
+		} else {
+			Categoria categroiaPai = find(obj.getCategoriaPai().getId());
+			nivelCategoria = NivelCategoria.toEnum(categroiaPai.getNivel() + 1);
+		categoria.setCategoriaPai(categroiaPai);
+		}
+		
+		categoria.setNivel(nivelCategoria.getCod());
+		
+		return categoria;
+	}
+	
+	public Categoria toCategoria(CategoriaSimplesDTO obj) {
+		Categoria categoria = new Categoria();
+		categoria.setId(obj.getId());
+		categoria = find(categoria.getId());
+		
+		return categoria;
+	}
+	
+	public CategoriaSimplesDTO toCategoriaSimplesDTO(Categoria obj) {
+		
+		CategoriaSimplesDTO categoriaSimplesDTO = new CategoriaSimplesDTO(obj);
+		return categoriaSimplesDTO;
+	}
+	
+	public CategoriaCompletaDTO toCategoriaCompletaDTO(Categoria obj) {
+		
+		CategoriaCompletaDTO categoriaCompletaDTO = new CategoriaCompletaDTO(obj);
+		return categoriaCompletaDTO;
+	}
+	
+	public CategoriaPaiDTO toCategoriaPaiDTO(Categoria obj) {
+		
+		CategoriaPaiDTO categoriaPaiDTO = new CategoriaPaiDTO(obj);
+		return categoriaPaiDTO;
+	}
+	
+	public CategoriaFilhaDTO toCategoriaFilhaDTO(Categoria obj) {
+		
+		CategoriaFilhaDTO categoriaFilhaDTO = new CategoriaFilhaDTO(obj);
+		return categoriaFilhaDTO;
+	}
+	
+	public CategoriaMostraFilhaDTO toCategoriaMostraFilhaDTO(Categoria obj) {
+		
+		CategoriaMostraFilhaDTO categoriaMostraFilhaDTO = new CategoriaMostraFilhaDTO(obj);
+		return categoriaMostraFilhaDTO;
 	}
 	
 	private void updateData(Categoria newObj, Categoria obj) {

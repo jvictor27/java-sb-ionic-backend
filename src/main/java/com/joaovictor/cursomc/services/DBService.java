@@ -20,6 +20,7 @@ import com.joaovictor.cursomc.domain.PagamentoComCartao;
 import com.joaovictor.cursomc.domain.Pedido;
 import com.joaovictor.cursomc.domain.Produto;
 import com.joaovictor.cursomc.domain.enums.EstadoPagamento;
+import com.joaovictor.cursomc.domain.enums.NivelCategoria;
 import com.joaovictor.cursomc.domain.enums.Perfil;
 import com.joaovictor.cursomc.domain.enums.TipoCliente;
 import com.joaovictor.cursomc.repositories.CategoriaRepository;
@@ -56,21 +57,64 @@ public class DBService {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 	
+	@Autowired
+	private ProdutoService produtoService;
+	
 	public void instanciateTestDataBase() throws ParseException {
-		Categoria cat1 = new Categoria(null, "Informática");
-		Categoria cat2 = new Categoria(null, "Escritório");
-		Categoria cat3 = new Categoria(null, "Cama, mesa e banho");
-		Categoria cat4 = new Categoria(null, "Eletrônicos");
-		Categoria cat5 = new Categoria(null, "Jardinagem");
-		Categoria cat6 = new Categoria(null, "Decoração");
-		Categoria cat7 = new Categoria(null, "Moda");
-		Categoria cat8 = new Categoria(null, "Perfumaria");
+		Categoria cat1 = new Categoria(null, "Informática", NivelCategoria.PRIMEIRONIVEL);
+		Categoria cat2 = new Categoria(null, "Móveis", NivelCategoria.PRIMEIRONIVEL);
+		Categoria cat3 = new Categoria(null, "Casa", NivelCategoria.PRIMEIRONIVEL);
+		Categoria cat4 = new Categoria(null, "Eletrodomésticos", NivelCategoria.PRIMEIRONIVEL);
+		Categoria cat5 = new Categoria(null, "Masculino", NivelCategoria.PRIMEIRONIVEL);
+		Categoria cat6 = new Categoria(null, "Feminino", NivelCategoria.PRIMEIRONIVEL);
+//		Categoria cat7 = new Categoria(null, "Cuidados pessoais");
 		
-		Categoria cat9 = new Categoria(null, "mouse");
-		Categoria cat10 = new Categoria(null, "teclado");
+		Categoria cat7 = new Categoria(null, "Periféricos", NivelCategoria.SEGUNDONIVEL, cat1);
+		Categoria cat8 = new Categoria(null, "Escritório", NivelCategoria.SEGUNDONIVEL, cat2);
+		Categoria cat9 = new Categoria(null, "Utilides do lar", NivelCategoria.SEGUNDONIVEL, cat3);
+		Categoria cat10 = new Categoria(null, "TV's", NivelCategoria.SEGUNDONIVEL, cat4);
+		Categoria cat11 = new Categoria(null, "Moda", NivelCategoria.SEGUNDONIVEL, cat5);
+		Categoria cat12 = new Categoria(null, "Calçado", NivelCategoria.SEGUNDONIVEL, cat5);
+		Categoria cat13 = new Categoria(null, "Moda", NivelCategoria.SEGUNDONIVEL, cat6);
+		Categoria cat14 = new Categoria(null, "Calçado", NivelCategoria.SEGUNDONIVEL, cat6);
+		Categoria cat15 = new Categoria(null, "Computadores e notebooks", NivelCategoria.SEGUNDONIVEL, cat1);
 		
-		Produto p1 = new Produto(null, "Computador", 2000.00);
-		Produto p2 = new Produto(null, "Impressora", 800.00);
+		Categoria cat16 = new Categoria(null, "Mouses", NivelCategoria.TERCEIRONIVEL, cat7);
+		Categoria cat17 = new Categoria(null, "Mesas e escrivanias", NivelCategoria.TERCEIRONIVEL, cat8);		
+		Categoria cat18 = new Categoria(null, "Quarto e cama", NivelCategoria.TERCEIRONIVEL, cat9);
+		Categoria cat19 = new Categoria(null, "Cozinha", NivelCategoria.TERCEIRONIVEL, cat9);
+		Categoria cat20 = new Categoria(null, "Jardinagem", NivelCategoria.TERCEIRONIVEL, cat9);
+		Categoria cat21 = new Categoria(null, "Decoração", NivelCategoria.TERCEIRONIVEL, cat9);
+		Categoria cat22 = new Categoria(null, "Banho", NivelCategoria.TERCEIRONIVEL, cat9);
+		Categoria cat23 = new Categoria(null, "Smart tv", NivelCategoria.TERCEIRONIVEL, cat10);
+		Categoria cat24 = new Categoria(null, "Camisas e camisetas", NivelCategoria.TERCEIRONIVEL, cat11);
+		Categoria cat25 = new Categoria(null, "Sapatênis", NivelCategoria.TERCEIRONIVEL, cat12);
+		Categoria cat26 = new Categoria(null, "Blusas e camisetas", NivelCategoria.TERCEIRONIVEL, cat13);
+		Categoria cat27 = new Categoria(null, "Sapatênis", NivelCategoria.TERCEIRONIVEL, cat14);
+		Categoria cat28 = new Categoria(null, "Sandálias", NivelCategoria.TERCEIRONIVEL, cat14);
+		Categoria cat29 = new Categoria(null, "Computadores", NivelCategoria.TERCEIRONIVEL, cat15);
+		
+		Categoria cat30 = new Categoria(null, "Computadores gamers", NivelCategoria.QUARTONIVEL, cat29);
+		Categoria cat31 = new Categoria(null, "Casual", NivelCategoria.QUARTONIVEL, cat24);
+		Categoria cat32 = new Categoria(null, "Mesas", NivelCategoria.QUARTONIVEL, cat17);
+		Categoria cat33 = new Categoria(null, "Mouses com fio", NivelCategoria.QUARTONIVEL, cat16);
+		Categoria cat34 = new Categoria(null, "Led", NivelCategoria.QUARTONIVEL, cat23);
+		Categoria cat35 = new Categoria(null, "Toalhas", NivelCategoria.QUARTONIVEL, cat22);
+		Categoria cat36 = new Categoria(null, "Roupões", NivelCategoria.QUARTONIVEL, cat22);
+		Categoria cat37 = new Categoria(null, "Panelas", NivelCategoria.QUARTONIVEL, cat19);
+		Categoria cat38 = new Categoria(null, "Ferramentas", NivelCategoria.QUARTONIVEL, cat20);
+		Categoria cat39 = new Categoria(null, "Iluminação", NivelCategoria.QUARTONIVEL, cat21);
+		Categoria cat40 = new Categoria(null, "Colchas", NivelCategoria.QUARTONIVEL, cat18);
+		Categoria cat42 = new Categoria(null, "Regata", NivelCategoria.QUARTONIVEL, cat24);
+		Categoria cat43 = new Categoria(null, "Casual", NivelCategoria.QUARTONIVEL, cat25);
+		Categoria cat44 = new Categoria(null, "Casual", NivelCategoria.QUARTONIVEL, cat26);
+		Categoria cat45 = new Categoria(null, "Regata", NivelCategoria.QUARTONIVEL, cat26);
+		Categoria cat46 = new Categoria(null, "Casual", NivelCategoria.QUARTONIVEL, cat27);
+		Categoria cat47 = new Categoria(null, "Rasteira", NivelCategoria.QUARTONIVEL, cat28);
+		
+		
+		Produto p1 = new Produto(null, "Computador gamer i7", 2000.00);
+//		Produto p2 = new Produto(null, "Impressora", 800.00);
 		Produto p3 = new Produto(null, "Mouse", 80.00);
 		Produto p4 = new Produto(null, "Mesa de escritório", 300.00);
 		Produto p5 = new Produto(null, "Toalha", 50.00);
@@ -78,12 +122,12 @@ public class DBService {
 		Produto p7 = new Produto(null, "TV true color", 1200.00);
 		Produto p8 = new Produto(null, "Roçadeira", 800.00);
 		Produto p9 = new Produto(null, "Abajour", 100.00);
-		Produto p10 = new Produto(null, "Pendente", 180.00);
-		Produto p11 = new Produto(null, "Shampoo", 90.00);
-		Produto p12 = new Produto(null, "Produto 12", 10.00);
-		Produto p13 = new Produto(null, "Produto 13", 10.00);
-		Produto p14 = new Produto(null, "Produto 14", 10.00);
-		Produto p15 = new Produto(null, "Produto 15", 10.00);
+		Produto p10 = new Produto(null, "Luminária", 180.00);
+//		Produto p11 = new Produto(null, "Shampoo", 90.00);
+		Produto p12 = new Produto(null, "Camisa Regata Masculina", 10.00);
+		Produto p13 = new Produto(null, "Sapatênis Casual Masculino", 10.00);
+		Produto p14 = new Produto(null, "Blusa Feminina", 10.00);
+		Produto p15 = new Produto(null, "Sapatilha Feminina", 10.00);
 		Produto p16 = new Produto(null, "Produto 16", 10.00);
 		Produto p17 = new Produto(null, "Produto 17", 10.00);
 		Produto p18 = new Produto(null, "Produto 18", 10.00);
@@ -120,84 +164,152 @@ public class DBService {
 		Produto p49 = new Produto(null, "Produto 49", 10.00);
 		Produto p50 = new Produto(null, "Produto 50", 10.00);
 		
-		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
-		cat1.getProdutos().addAll(Arrays.asList(p12, p13, p14, p15, p16, p17, p18, p19, p20,
-				p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p34, p35, p36, p37, p38,
-				p39, p40, p41, p42, p43, p44, p45, p46, p47, p48, p49, p50));
-		cat2.getProdutos().addAll(Arrays.asList(p2));
+		p1.getCategorias().addAll(Arrays.asList(cat30));
+//		p2.getCategorias().addAll(Arrays.asList(cat8));
+		p3.getCategorias().addAll(Arrays.asList(cat33));
+		p4.getCategorias().addAll(Arrays.asList(cat32));
+		p5.getCategorias().addAll(Arrays.asList(cat35));
+		p6.getCategorias().addAll(Arrays.asList(cat40));
+		p7.getCategorias().addAll(Arrays.asList(cat34));
+		p8.getCategorias().addAll(Arrays.asList(cat38));
+		p9.getCategorias().addAll(Arrays.asList(cat39));
+		p10.getCategorias().addAll(Arrays.asList(cat39));
+//		p11.getCategorias().addAll(Arrays.asList(cat28));
+		p12.getCategorias().add(cat42);
+		p13.getCategorias().add(cat43);
+		p14.getCategorias().add(cat44);
+		p15.getCategorias().add(cat46);
 		
-//		cat1.getCategorias().addAll(Arrays.asList(cat9));
-		cat9.setCategoriaPai(cat1);
-		cat10.setCategoriaPai(cat1);
-		
-		p1.getCategorias().addAll(Arrays.asList(cat1));
-		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
-		p3.getCategorias().addAll(Arrays.asList(cat1));
-		
-		cat2.getProdutos().addAll(Arrays.asList(p2, p4));
-		cat3.getProdutos().addAll(Arrays.asList(p5, p6));
-		cat4.getProdutos().addAll(Arrays.asList(p1, p2, p3, p7));
-		cat5.getProdutos().addAll(Arrays.asList(p8));
-		cat6.getProdutos().addAll(Arrays.asList(p9, p10));
-		cat7.getProdutos().addAll(Arrays.asList(p11));
+		p16.getCategorias().add(cat46);
+		p17.getCategorias().add(cat46);
+		p18.getCategorias().add(cat46);
+		p19.getCategorias().add(cat46);
+		p20.getCategorias().add(cat46);
+		p21.getCategorias().add(cat46);
+		p22.getCategorias().add(cat46);
+		p23.getCategorias().add(cat46);
+		p24.getCategorias().add(cat46);
+		p25.getCategorias().add(cat46);
+		p26.getCategorias().add(cat46);
+		p27.getCategorias().add(cat46);
+		p28.getCategorias().add(cat46);
+		p29.getCategorias().add(cat46);
+		p30.getCategorias().add(cat46);
+		p31.getCategorias().add(cat46);
+		p32.getCategorias().add(cat46);
+		p33.getCategorias().add(cat46);
+		p34.getCategorias().add(cat46);
+		p35.getCategorias().add(cat46);
+		p36.getCategorias().add(cat46);
+		p37.getCategorias().add(cat46);
+		p38.getCategorias().add(cat46);
+		p39.getCategorias().add(cat46);
+		p40.getCategorias().add(cat46);
+		p41.getCategorias().add(cat46);
+		p42.getCategorias().add(cat46);
+		p43.getCategorias().add(cat46);
+		p44.getCategorias().add(cat46);
+		p45.getCategorias().add(cat46);
+		p46.getCategorias().add(cat46);
+		p47.getCategorias().add(cat46);
+		p48.getCategorias().add(cat46);
+		p49.getCategorias().add(cat46);
+		p50.getCategorias().add(cat46);
 
-		p1.getCategorias().addAll(Arrays.asList(cat1, cat4));
-		p2.getCategorias().addAll(Arrays.asList(cat1, cat2, cat4));
-		p3.getCategorias().addAll(Arrays.asList(cat1, cat4));
-		p4.getCategorias().addAll(Arrays.asList(cat2));
-		p5.getCategorias().addAll(Arrays.asList(cat3));
-		p6.getCategorias().addAll(Arrays.asList(cat3));
-		p7.getCategorias().addAll(Arrays.asList(cat4));
-		p8.getCategorias().addAll(Arrays.asList(cat5));
-		p9.getCategorias().addAll(Arrays.asList(cat6));
-		p10.getCategorias().addAll(Arrays.asList(cat6));
-		p11.getCategorias().addAll(Arrays.asList(cat7));
-		p12.getCategorias().add(cat1);
-		p13.getCategorias().add(cat1);
-		p14.getCategorias().add(cat1);
-		p15.getCategorias().add(cat1);
-		p16.getCategorias().add(cat1);
-		p17.getCategorias().add(cat1);
-		p18.getCategorias().add(cat1);
-		p19.getCategorias().add(cat1);
-		p20.getCategorias().add(cat1);
-		p21.getCategorias().add(cat1);
-		p22.getCategorias().add(cat1);
-		p23.getCategorias().add(cat1);
-		p24.getCategorias().add(cat1);
-		p25.getCategorias().add(cat1);
-		p26.getCategorias().add(cat1);
-		p27.getCategorias().add(cat1);
-		p28.getCategorias().add(cat1);
-		p29.getCategorias().add(cat1);
-		p30.getCategorias().add(cat1);
-		p31.getCategorias().add(cat1);
-		p32.getCategorias().add(cat1);
-		p33.getCategorias().add(cat1);
-		p34.getCategorias().add(cat1);
-		p35.getCategorias().add(cat1);
-		p36.getCategorias().add(cat1);
-		p37.getCategorias().add(cat1);
-		p38.getCategorias().add(cat1);
-		p39.getCategorias().add(cat1);
-		p40.getCategorias().add(cat1);
-		p41.getCategorias().add(cat1);
-		p42.getCategorias().add(cat1);
-		p43.getCategorias().add(cat1);
-		p44.getCategorias().add(cat1);
-		p45.getCategorias().add(cat1);
-		p46.getCategorias().add(cat1);
-		p47.getCategorias().add(cat1);
-		p48.getCategorias().add(cat1);
-		p49.getCategorias().add(cat1);
-		p50.getCategorias().add(cat1);
 		
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10));
-		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
-		produtoRepository.saveAll(Arrays.asList(p12, p13, p14, p15, p16, p17, p18, p19, p20,
-				p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34, p35, p36, p37, p38,
-				p39, p40, p41, p42, p43, p44, p45, p46, p47, p48, p49, p50));
+//		cat8.getProdutos().addAll(Arrays.asList(p2, p3, p16, p17, p18, p19, p20,
+//				p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p34, p35, p36, p37, p38,
+//				p39, p40, p41, p42, p43, p44, p45, p46, p47, p48, p49, p50));
+//		cat10.getProdutos().addAll(Arrays.asList(p4));
+//		cat11.getProdutos().addAll(Arrays.asList(p9, p10));
+//		cat12.getProdutos().addAll(Arrays.asList(p6, p9, p10));
+//		cat14.getProdutos().addAll(Arrays.asList(p8));
+//		cat17.getProdutos().addAll(Arrays.asList(p7));
+//		cat19.getProdutos().addAll(Arrays.asList(p12));
+//		cat21.getProdutos().addAll(Arrays.asList(p13));
+//		cat23.getProdutos().addAll(Arrays.asList(p14));
+//		cat25.getProdutos().addAll(Arrays.asList(p15));
+//		cat27.getProdutos().addAll(Arrays.asList(p1));
+//		cat28.getProdutos().addAll(Arrays.asList(p5, p11));
+//		
+//		
+//		cat2.getProdutos().addAll(Arrays.asList(p2, p4));
+//		cat3.getProdutos().addAll(Arrays.asList(p5, p6));
+//		cat4.getProdutos().addAll(Arrays.asList(p1, p2, p3, p7));
+//		cat5.getProdutos().addAll(Arrays.asList(p8));
+//		cat6.getProdutos().addAll(Arrays.asList(p9, p10));
+//		
+//		cat7.getProdutos().addAll(Arrays.asList(p11));
+
+//		p1.getCategorias().addAll(Arrays.asList(cat1, cat4));
+//		p2.getCategorias().addAll(Arrays.asList(cat1, cat2, cat4));
+//		p3.getCategorias().addAll(Arrays.asList(cat1, cat4));
+				
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8,
+				cat9, cat10, cat11, cat12, cat13, cat14, cat15, cat16, cat17, cat18,
+				cat19, cat20, cat21, cat22, cat23, cat24, cat25, cat26, cat27, cat28, cat29, cat30
+				, cat31, cat32, cat33, cat34, cat35, cat36, cat37, cat38, cat39, cat40, cat42
+				, cat43, cat44, cat45, cat46, cat47));
 		
+//		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
+//		produtoRepository.saveAll(Arrays.asList(p12, p13, p14, p15, p16, p17, p18, p19, p20,
+//				p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34, p35, p36, p37, p38,
+//				p39, p40, p41, p42, p43, p44, p45, p46, p47, p48, p49, p50));
+		
+		try {
+			produtoService.insert(p1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		produtoService.insert(p3);
+		produtoService.insert(p4);
+		produtoService.insert(p5);
+		produtoService.insert(p6);
+		produtoService.insert(p7);
+		produtoService.insert(p8);
+		produtoService.insert(p9);
+		produtoService.insert(p10);
+		produtoService.insert(p12);
+		produtoService.insert(p13);
+		produtoService.insert(p14);
+		produtoService.insert(p15);
+		produtoService.insert(p16);
+		produtoService.insert(p17);
+		produtoService.insert(p18);
+		produtoService.insert(p19);
+		produtoService.insert(p20);
+		produtoService.insert(p21);
+		produtoService.insert(p22);
+		produtoService.insert(p23);
+		produtoService.insert(p24);
+		produtoService.insert(p25);
+		produtoService.insert(p26);
+		produtoService.insert(p27);
+		produtoService.insert(p28);
+		produtoService.insert(p29);
+		produtoService.insert(p30);
+		produtoService.insert(p31);
+		produtoService.insert(p32);
+		produtoService.insert(p33);
+		produtoService.insert(p34);
+		produtoService.insert(p35);
+		produtoService.insert(p36);
+		produtoService.insert(p37);
+		produtoService.insert(p38);
+		produtoService.insert(p39);
+		produtoService.insert(p40);
+		produtoService.insert(p41);
+		produtoService.insert(p42);
+		produtoService.insert(p43);
+		produtoService.insert(p44);
+		produtoService.insert(p45);
+		produtoService.insert(p46);
+		produtoService.insert(p47);
+		produtoService.insert(p48);
+		produtoService.insert(p49);
+		produtoService.insert(p50);
+	
 		Estado est1 = new Estado(null, "Minas Gerais");
 		Estado est2 = new Estado(null, "São Paulo");
 		
@@ -246,13 +358,13 @@ public class DBService {
 		
 		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
 		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
-		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p4, 100.00, 1, 800.00);
 		
 		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
 		ped2.getItens().addAll(Arrays.asList(ip3));
 		
 		p1.getItens().addAll(Arrays.asList(ip1));
-		p2.getItens().addAll(Arrays.asList(ip3));
+		p4.getItens().addAll(Arrays.asList(ip3));
 		p3.getItens().addAll(Arrays.asList(ip2));
 		
 		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));

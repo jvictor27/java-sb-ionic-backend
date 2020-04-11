@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Produto implements Serializable {
@@ -27,7 +28,7 @@ public class Produto implements Serializable {
 	private String nome;
 	private Double preco;
 	
-	@JsonIgnore
+	@JsonIgnoreProperties({"nivel", "produtos", "categoriaPai", "categoriaFilhas"})
 	@ManyToMany
 	@JoinTable(
 		name = "PRODUTO_CATEGORIA",

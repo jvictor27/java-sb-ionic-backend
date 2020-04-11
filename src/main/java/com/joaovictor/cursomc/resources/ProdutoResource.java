@@ -1,18 +1,25 @@
 package com.joaovictor.cursomc.resources;
 
+import java.net.URI;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.joaovictor.cursomc.domain.Categoria;
 import com.joaovictor.cursomc.domain.Produto;
-import com.joaovictor.cursomc.dto.CategoriaDTO;
+import com.joaovictor.cursomc.dto.CategoriaSimplesDTO;
 import com.joaovictor.cursomc.dto.ProdutoDTO;
 import com.joaovictor.cursomc.resources.utils.URL;
 import com.joaovictor.cursomc.services.ProdutoService;
@@ -43,6 +50,27 @@ public class ProdutoResource {
 		Page<Produto> list = service.search(nomeDecoded, ids, page, linesPerPage, direction, orderBy);
 		Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));
 		return ResponseEntity.ok().body(listDto);
+	}
+	
+//	@PreAuthorize("hasAnyRole('ADMIN')")
+//	@RequestMapping(method=RequestMethod.POST)
+//	public ResponseEntity<Void> insert(@Valid @RequestBody ProdutoDTO objDto) throws Exception {
+//		Produto obj = service.fromDto(objDto);
+////		obj = service.insert(obj);
+////		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+////				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+////		return ResponseEntity.created(uri).build();
+//		return ResponseEntity.ok().build();
+//	}
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@RequestMapping(method=RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody Produto obj) throws Exception {
+//		Produto obj = service.fromDto(objDto);
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 	
 }
