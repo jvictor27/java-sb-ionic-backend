@@ -18,14 +18,11 @@ public class ProdutoDTO implements Serializable {
 	
 	private Integer id;
 	
-	@NotEmpty(message="Preenchimento obrigatório")
-	@Length(min=5, max=60, message="O tamanho deve ser entre 5 e 60 caracteres")
 	private String nome;
 	
 	private Double preco;
 	
-	@JsonIgnore
-	private List<Categoria> categorias = new ArrayList<>();
+	private List<CategoriaSimplesDTO> categorias = new ArrayList<>();
 	
 	public ProdutoDTO() {
 		
@@ -35,7 +32,13 @@ public class ProdutoDTO implements Serializable {
 		id = obj.getId();
 		nome = obj.getNome();
 		preco = obj.getPreco();
-		categorias = obj.getCategorias();
+		categorias = null;
+		if (obj.getCategorias() != null && obj.getCategorias().size() > 0) {
+			for (Categoria categoria : obj.getCategorias()) {
+				categorias.add(new CategoriaSimplesDTO(categoria));
+			}
+		}
+	
 	}
 
 	public Integer getId() {
@@ -62,11 +65,11 @@ public class ProdutoDTO implements Serializable {
 		this.preco = preco;
 	}
 	
-	public List<Categoria> getCategorias() {
+	public List<CategoriaSimplesDTO> getCategorias() {
 		return categorias;
 	}
 
-	public void setCategorias(List<Categoria> categorias) {
+	public void setCategorias(List<CategoriaSimplesDTO> categorias) {
 		this.categorias = categorias;
 	}
 }

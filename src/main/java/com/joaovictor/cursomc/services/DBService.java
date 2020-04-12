@@ -256,12 +256,8 @@ public class DBService {
 //				p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34, p35, p36, p37, p38,
 //				p39, p40, p41, p42, p43, p44, p45, p46, p47, p48, p49, p50));
 		
-		try {
-			produtoService.insert(p1);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		produtoService.insert(p1);
 		produtoService.insert(p3);
 		produtoService.insert(p4);
 		produtoService.insert(p5);

@@ -1,6 +1,7 @@
 package com.joaovictor.cursomc.services;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,8 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.joaovictor.cursomc.domain.Categoria;
 import com.joaovictor.cursomc.domain.Produto;
-import com.joaovictor.cursomc.dto.CategoriaSimplesDTO;
-import com.joaovictor.cursomc.dto.ProdutoDTO;
+import com.joaovictor.cursomc.dto.CategoriaMostraPaiDTO;
 import com.joaovictor.cursomc.repositories.CategoriaRepository;
 import com.joaovictor.cursomc.repositories.ProdutoRepository;
 import com.joaovictor.cursomc.services.exceptions.DataIntegrityException;
@@ -33,14 +33,40 @@ public class ProdutoService {
 	
 	public Produto find(Integer id) {
 		Optional<Produto> obj = repo.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException(
+		obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Produto.class.getName()));
+		
+		Produto produto = obj.get();
+		produto = simplifyProdutoCategorias(produto);
+		return produto;
 	}
 	
 	public Page<Produto> search(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String direction, String orderBy) {
+		if (page > 0) {
+			page--;
+		}
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		List<Categoria> categorias = CatRepo.findAllById(ids);
-		return repo.search(nome, categorias, pageRequest);
+		Page<Produto> produtos = repo.search(nome, categorias, pageRequest);
+		
+		for (Produto produto : produtos) {
+			produto = simplifyProdutoCategorias(produto);
+		}
+		
+		return produtos;
+	}
+	
+	private Produto simplifyProdutoCategorias(Produto obj) {
+		if (obj.getCategorias() != null && obj.getCategorias().size() > 0) {
+			for (Iterator<Categoria> categoriaIterator = obj.getCategorias().iterator(); categoriaIterator.hasNext();) {
+				Categoria categoria = categoriaIterator.next();
+				if (categoria.getNivel() != 4) {
+					categoriaIterator.remove();
+				}
+			}
+		}
+		
+		return obj;
 	}
 	
 	public Produto insert(Produto obj) {
@@ -53,12 +79,9 @@ public class ProdutoService {
 		List<Categoria> listaCategorias = new ArrayList<>();
 		
 		for (Categoria categoria : obj.getCategorias()) {
-			System.out.println(categoria);
 			Categoria findCategoria = CatService.find(categoria.getId());
 			listaCategorias.add(findCategoria);
 			listaCategorias.addAll(addArvoreCategoriaNoProduto(findCategoria));
-//			findCategoria.orElseThrow(() -> new ObjectNotFoundException(
-//					"Objeto não encontrado! Id: " + id + ", Tipo: " + Produto.class.getName()))
 		}
 		
 		obj.setCategorias(listaCategorias);
@@ -68,15 +91,10 @@ public class ProdutoService {
 	
 	private List<Categoria> addArvoreCategoriaNoProduto(Categoria categoria) {
 		List<Categoria> listaCategorias = new ArrayList<>();
-//		for (Categoria categoria : obj.getCategorias()) {
-//			Categoria findCategoria = CatService.find(categoria.getId());
-			listaCategorias.add(categoria.getCategoriaPai());
-			if (categoria.getCategoriaPai().getCategoriaPai() != null) {
-				listaCategorias.addAll(addArvoreCategoriaNoProduto(categoria.getCategoriaPai()));
-			}
-//			findCategoria.orElseThrow(() -> new ObjectNotFoundException(
-//					"Objeto não encontrado! Id: " + id + ", Tipo: " + Produto.class.getName()))
-//		}
+		listaCategorias.add(categoria.getCategoriaPai());
+		if (categoria.getCategoriaPai().getCategoriaPai() != null) {
+			listaCategorias.addAll(addArvoreCategoriaNoProduto(categoria.getCategoriaPai()));
+		}
 		
 		return listaCategorias;
 	}

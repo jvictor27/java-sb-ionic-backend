@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.joaovictor.cursomc.domain.Categoria;
 
-public class CategoriaMostraFilhaDTO implements Serializable {
+public class CategoriaMostraPaiDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
@@ -23,21 +23,18 @@ public class CategoriaMostraFilhaDTO implements Serializable {
 	@Length(min=5, max=80, message="O tamanho deve ser entre 5 e 80 caracteres")
 	private String nome;
 	
-	private List<CategoriaFilhaDTO> categoriasFilhas = new ArrayList<>();
+	private Integer nivel;
 	
-	public CategoriaMostraFilhaDTO() {
+	private CategoriaSimplesDTO categoriaPai;
+	
+	public CategoriaMostraPaiDTO() {
 		
 	}
 	
-	public CategoriaMostraFilhaDTO(Categoria obj) {
+	public CategoriaMostraPaiDTO(Categoria obj) {
 		id = obj.getId();
 		nome = obj.getNome();
-
-		if (obj.getCategoriasFilhas() != null && obj.getCategoriasFilhas().size() > 0) {			
-			for (Categoria categoria : obj.getCategoriasFilhas()) {
-				categoriasFilhas.add(new CategoriaFilhaDTO(categoria));
-			}
-		}
+		categoriaPai = (obj.getCategoriaPai() == null) ? null : new CategoriaSimplesDTO(obj.getCategoriaPai());
 	}
 
 	public Integer getId() {
@@ -56,12 +53,12 @@ public class CategoriaMostraFilhaDTO implements Serializable {
 		this.nome = nome;
 	}
 	
-	public List<CategoriaFilhaDTO> getCategoriasFilhas() {
-		return categoriasFilhas;
+	public CategoriaSimplesDTO getCategoriaPai() {
+		return categoriaPai;
 	}
 
-	public void setCategoriasFilhas(List<CategoriaFilhaDTO> categoriasFilhas) {
-		this.categoriasFilhas = categoriasFilhas;
+	public void setCategoriaPaiDTO(CategoriaSimplesDTO categoriaPai) {
+		this.categoriaPai = categoriaPai;
 	}
 	
 }

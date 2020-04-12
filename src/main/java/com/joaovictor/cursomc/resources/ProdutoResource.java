@@ -19,7 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.joaovictor.cursomc.domain.Categoria;
 import com.joaovictor.cursomc.domain.Produto;
-import com.joaovictor.cursomc.dto.CategoriaSimplesDTO;
+import com.joaovictor.cursomc.dto.CategoriaMostraPaiDTO;
+import com.joaovictor.cursomc.dto.ProdutoDTO;
 import com.joaovictor.cursomc.dto.ProdutoDTO;
 import com.joaovictor.cursomc.resources.utils.URL;
 import com.joaovictor.cursomc.services.ProdutoService;
@@ -32,9 +33,10 @@ public class ProdutoResource {
 	private ProdutoService service;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Produto> find(@PathVariable Integer id) {
+	public ResponseEntity<ProdutoDTO> find(@PathVariable Integer id) {
 		Produto obj = service.find(id);
-		return ResponseEntity.ok().body(obj);
+		ProdutoDTO objDTO = new ProdutoDTO(obj);
+		return ResponseEntity.ok().body(objDTO);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
@@ -52,21 +54,9 @@ public class ProdutoResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-//	@PreAuthorize("hasAnyRole('ADMIN')")
-//	@RequestMapping(method=RequestMethod.POST)
-//	public ResponseEntity<Void> insert(@Valid @RequestBody ProdutoDTO objDto) throws Exception {
-//		Produto obj = service.fromDto(objDto);
-////		obj = service.insert(obj);
-////		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-////				.path("/{id}").buildAndExpand(obj.getId()).toUri();
-////		return ResponseEntity.created(uri).build();
-//		return ResponseEntity.ok().build();
-//	}
-	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Produto obj) throws Exception {
-//		Produto obj = service.fromDto(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();

@@ -20,7 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.joaovictor.cursomc.domain.Categoria;
 import com.joaovictor.cursomc.dto.CategoriaCompletaDTO;
-import com.joaovictor.cursomc.dto.CategoriaSimplesDTO;
+import com.joaovictor.cursomc.dto.CategoriaMostraPaiDTO;
 import com.joaovictor.cursomc.services.CategoriaService;
 
 @RestController
@@ -39,7 +39,7 @@ public class CategoriaResource {
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaSimplesDTO objDto) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaMostraPaiDTO objDto) {
 		Categoria obj = service.fromDtoCadastro(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -49,7 +49,7 @@ public class CategoriaResource {
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@PathVariable Integer id, @Valid @RequestBody CategoriaSimplesDTO objDto) {
+	public ResponseEntity<Void> update(@PathVariable Integer id, @Valid @RequestBody CategoriaMostraPaiDTO objDto) {
 		Categoria obj = service.fromDtoCadastro(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
@@ -64,22 +64,22 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<CategoriaSimplesDTO>> findAll() {
+	public ResponseEntity<List<CategoriaMostraPaiDTO>> findAll() {
 		List<Categoria> list = service.findAll();
-		List<CategoriaSimplesDTO> listDto = list.stream()
-				.map(obj -> new CategoriaSimplesDTO(obj)).collect(Collectors.toList());
+		List<CategoriaMostraPaiDTO> listDto = list.stream()
+				.map(obj -> new CategoriaMostraPaiDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
 	
 	@RequestMapping(value="/page", method=RequestMethod.GET)
-	public ResponseEntity<Page<CategoriaSimplesDTO>> findPage(
+	public ResponseEntity<Page<CategoriaMostraPaiDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page,
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
 			@RequestParam(value="direction", defaultValue="ASC") String direction,
 			@RequestParam(value="orderBy", defaultValue="nome") String orderBy,
 			@RequestParam(value="nivel", defaultValue="1") Integer nivel) {
 		Page<Categoria> list = service.findPage(page, linesPerPage, direction, orderBy, nivel);
-		Page<CategoriaSimplesDTO> listDto = list.map(obj -> service.toCategoriaSimplesDTO(obj));
+		Page<CategoriaMostraPaiDTO> listDto = list.map(obj -> service.toCategoriaSimplesDTO(obj));
 		return ResponseEntity.ok().body(listDto);
 	}
 }

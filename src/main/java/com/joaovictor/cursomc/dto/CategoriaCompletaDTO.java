@@ -23,9 +23,9 @@ public class CategoriaCompletaDTO implements Serializable {
 	@Length(min=5, max=80, message="O tamanho deve ser entre 5 e 80 caracteres")
 	private String nome;
 	
-	private CategoriaPaiDTO categoriaPai;
+	private CategoriaSimplesDTO categoriaPai;
 	
-	private List<CategoriaFilhaDTO> categoriasFilhas = new ArrayList<>();
+	private List<CategoriaSimplesDTO> categoriasFilhas = new ArrayList<>();
 	
 	public CategoriaCompletaDTO() {
 		
@@ -37,11 +37,11 @@ public class CategoriaCompletaDTO implements Serializable {
 		
 		if (obj.getCategoriasFilhas() != null && obj.getCategoriasFilhas().size() > 0) {			
 			for (Categoria categoria : obj.getCategoriasFilhas()) {
-				categoriasFilhas.add(new CategoriaFilhaDTO(categoria));
+				categoriasFilhas.add(new CategoriaSimplesDTO(categoria));
 			}
 		}
 		
-		categoriaPai = (obj.getCategoriaPai() == null) ? null : new CategoriaPaiDTO(obj.getCategoriaPai());
+		categoriaPai = (obj.getCategoriaPai() == null) ? null : new CategoriaSimplesDTO(obj.getCategoriaPai());
 	}
 
 	public Integer getId() {
@@ -60,19 +60,19 @@ public class CategoriaCompletaDTO implements Serializable {
 		this.nome = nome;
 	}
 	
-	public CategoriaPaiDTO getCategoriaPai() {
+	public CategoriaSimplesDTO getCategoriaPai() {
 		return categoriaPai;
 	}
 
-	public void setCategoriaPai(CategoriaPaiDTO categoriaPai) {
+	public void setCategoriaPai(CategoriaSimplesDTO categoriaPai) {
 		this.categoriaPai = categoriaPai;
 	}
 	
-	public List<CategoriaFilhaDTO> getCategoriasFilhas() {
+	public List<CategoriaSimplesDTO> getCategoriasFilhas() {
 		return categoriasFilhas;
 	}
 
-	public void setCategoriasFilhas(List<CategoriaFilhaDTO> categoriasFilhas) {
+	public void setCategoriasFilhas(List<CategoriaSimplesDTO> categoriasFilhas) {
 		this.categoriasFilhas = categoriasFilhas;
 	}
 	
