@@ -72,7 +72,6 @@ public class ProdutoService {
 	public Produto insert(Produto obj) {
 		
 		if (obj.getCategorias() == null || obj.getCategorias().size() < 1) {
-			System.out.println("Iêêê");
 			throw new DataIntegrityException("Cadastre ao menos categoria para o produto");
 		}
 		

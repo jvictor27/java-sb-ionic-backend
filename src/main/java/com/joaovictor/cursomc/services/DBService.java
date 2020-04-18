@@ -14,11 +14,13 @@ import com.joaovictor.cursomc.domain.Cliente;
 import com.joaovictor.cursomc.domain.Endereco;
 import com.joaovictor.cursomc.domain.Estado;
 import com.joaovictor.cursomc.domain.ItemPedido;
+import com.joaovictor.cursomc.domain.Opcao;
 import com.joaovictor.cursomc.domain.Pagamento;
 import com.joaovictor.cursomc.domain.PagamentoComBoleto;
 import com.joaovictor.cursomc.domain.PagamentoComCartao;
 import com.joaovictor.cursomc.domain.Pedido;
 import com.joaovictor.cursomc.domain.Produto;
+import com.joaovictor.cursomc.domain.TipoOpcao;
 import com.joaovictor.cursomc.domain.enums.EstadoPagamento;
 import com.joaovictor.cursomc.domain.enums.NivelCategoria;
 import com.joaovictor.cursomc.domain.enums.Perfil;
@@ -29,9 +31,11 @@ import com.joaovictor.cursomc.repositories.ClienteRepository;
 import com.joaovictor.cursomc.repositories.EnderecoRepository;
 import com.joaovictor.cursomc.repositories.EstadoRepository;
 import com.joaovictor.cursomc.repositories.ItemPedidoRepository;
+import com.joaovictor.cursomc.repositories.OpcaoRepository;
 import com.joaovictor.cursomc.repositories.PagamentoRepository;
 import com.joaovictor.cursomc.repositories.PedidoRepository;
 import com.joaovictor.cursomc.repositories.ProdutoRepository;
+import com.joaovictor.cursomc.repositories.TipoOpcaoRepository;
 
 @Service
 public class DBService {
@@ -56,6 +60,10 @@ public class DBService {
 	private PagamentoRepository pagamentoRepository;
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	@Autowired
+	private TipoOpcaoRepository tipoOpcaoRepository;
+	@Autowired
+	private OpcaoRepository opcaoRepository;
 	
 	@Autowired
 	private ProdutoService produtoService;
@@ -364,5 +372,33 @@ public class DBService {
 		p3.getItens().addAll(Arrays.asList(ip2));
 		
 		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
+		
+		// TipoOpcao e Opcao
+		TipoOpcao tipoOpcao1 = new TipoOpcao(null, "Cor");
+		TipoOpcao tipoOpcao2 = new TipoOpcao(null, "Tamanho");
+		TipoOpcao tipoOpcao3 = new TipoOpcao(null, "Voltagem");
+		
+		Opcao opcao1 = new Opcao(null, "Azul", tipoOpcao1);
+		Opcao opcao2 = new Opcao(null, "Vermelho", tipoOpcao1);
+		Opcao opcao3 = new Opcao(null, "Preto", tipoOpcao1);
+		Opcao opcao4 = new Opcao(null, "Amarelo", tipoOpcao1);
+		
+		Opcao opcao5 = new Opcao(null, "P", tipoOpcao2);
+		Opcao opcao6 = new Opcao(null, "PP", tipoOpcao2);
+		Opcao opcao7 = new Opcao(null, "M", tipoOpcao2);
+		Opcao opcao8 = new Opcao(null, "G", tipoOpcao2);
+		Opcao opcao9 = new Opcao(null, "GG", tipoOpcao2);
+		
+		Opcao opcao10 = new Opcao(null, "110V", tipoOpcao3);
+		Opcao opcao11 = new Opcao(null, "220V", tipoOpcao3);
+		Opcao opcao12 = new Opcao(null, "Bivolt", tipoOpcao3);
+		
+		tipoOpcao1.setOpcoes(Arrays.asList(opcao1, opcao2, opcao3, opcao4));
+		tipoOpcao2.setOpcoes(Arrays.asList(opcao5, opcao6, opcao7, opcao8, opcao9));
+		tipoOpcao3.setOpcoes(Arrays.asList(opcao10, opcao11, opcao12));
+		
+		tipoOpcaoRepository.saveAll(Arrays.asList(tipoOpcao1, tipoOpcao2, tipoOpcao3));
+		opcaoRepository.saveAll(Arrays.asList(opcao1, opcao2, opcao3, opcao4, opcao5, opcao6, opcao7, opcao8, opcao9, opcao10, opcao11, opcao12));
 	}
 }
