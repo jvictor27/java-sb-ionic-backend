@@ -18,8 +18,11 @@ import com.joaovictor.cursomc.domain.Produto;
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 	
 	@Transactional(readOnly=true)
-	@Query("SELECT DISTINCT obj FROM Produto obj INNER JOIN obj.categorias cat WHERE obj.nome LIKE %:nome% AND cat IN :categorias")
-	Page<Produto> search(@Param("nome") String nome, @Param("categorias") List<Categoria>categorias, Pageable pageRequest);
+//	@Query("SELECT DISTINCT obj FROM Produto obj INNER JOIN obj.categorias cat WHERE obj.nome LIKE %:nome% AND cat IN :categorias")
+//	Page<Produto> search(@Param("nome") String nome, @Param("categorias") List<Categoria>categorias, Pageable pageRequest);
 	// Mesmo método só que fazendo uso do padrão de nomes do SpringData, o que automatiza a criação da query da conulta
-	// Page<Produto> findDistinctByNomeContainingAndCategoriasIn(String nome, List<Categoria> categorias, Pageable pageRequest);
+	 Page<Produto> findDistinctByNomeContainingAndCategoriasIn(String nome, List<Categoria> categorias, Pageable pageRequest);
+	
+	@Transactional(readOnly=true)
+	Page<Produto> findDistinctByNomeContaining(String nome, Pageable pageRequest);
 }

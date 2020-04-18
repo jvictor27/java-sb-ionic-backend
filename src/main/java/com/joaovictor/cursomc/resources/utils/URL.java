@@ -10,10 +10,13 @@ import java.util.stream.Collectors;
 public class URL {
 
 	public static List<Integer> decodeIntList(String s, String delimiter) {
-		String[] vet = s.split(delimiter);
 		List<Integer> list = new ArrayList<>();
-		for (int i = 0; i < vet.length; i++) {
-			list.add(Integer.parseInt(vet[i]));
+		
+		if (!s.equals("")) {
+			String[] vet = s.split(delimiter);
+			for (int i = 0; i < vet.length; i++) {
+				list.add(Integer.parseInt(vet[i]));
+			}
 		}
 		
 		return list;

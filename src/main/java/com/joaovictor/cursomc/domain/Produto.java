@@ -41,6 +41,9 @@ public class Produto implements Serializable {
 	@OneToMany(mappedBy="id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();
 	
+	@OneToMany(mappedBy = "produto")
+	private List<ProdutoVariacao> variacoes = new ArrayList<>();
+	
 	public Produto() {
 	}
 
@@ -98,6 +101,14 @@ public class Produto implements Serializable {
 
 	public void setItens(Set<ItemPedido> itens) {
 		this.itens = itens;
+	}
+
+	public List<ProdutoVariacao> getVariacoes() {
+		return variacoes;
+	}
+
+	public void setVariacoes(List<ProdutoVariacao> variacoes) {
+		this.variacoes = variacoes;
 	}
 
 	@Override

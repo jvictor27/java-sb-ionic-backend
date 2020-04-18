@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.joaovictor.cursomc.domain.Categoria;
 import com.joaovictor.cursomc.domain.Produto;
+import com.joaovictor.cursomc.domain.ProdutoVariacao;
 
 public class ProdutoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,6 +25,8 @@ public class ProdutoDTO implements Serializable {
 	
 	private List<CategoriaSimplesDTO> categorias = new ArrayList<>();
 	
+	private List<ProdutoVariacaoSimplesDTO> variacoes = new ArrayList<>();
+	
 	public ProdutoDTO() {
 		
 	}
@@ -32,10 +35,17 @@ public class ProdutoDTO implements Serializable {
 		id = obj.getId();
 		nome = obj.getNome();
 		preco = obj.getPreco();
-		categorias = null;
+		
 		if (obj.getCategorias() != null && obj.getCategorias().size() > 0) {
 			for (Categoria categoria : obj.getCategorias()) {
-				categorias.add(new CategoriaSimplesDTO(categoria));
+				CategoriaSimplesDTO cat = new CategoriaSimplesDTO(categoria);
+				categorias.add(cat);
+			}
+		}
+		
+		if (obj.getVariacoes() != null && obj.getVariacoes().size() > 0) {
+			for (ProdutoVariacao variacao : obj.getVariacoes()) {
+				variacoes.add(new ProdutoVariacaoSimplesDTO(variacao));
 			}
 		}
 	
@@ -71,5 +81,13 @@ public class ProdutoDTO implements Serializable {
 
 	public void setCategorias(List<CategoriaSimplesDTO> categorias) {
 		this.categorias = categorias;
+	}
+
+	public List<ProdutoVariacaoSimplesDTO> getVariacoes() {
+		return variacoes;
+	}
+
+	public void setVariacoes(List<ProdutoVariacaoSimplesDTO> variacoes) {
+		this.variacoes = variacoes;
 	}
 }

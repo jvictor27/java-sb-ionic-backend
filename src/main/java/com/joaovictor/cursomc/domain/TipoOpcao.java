@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class TipoOpcao implements Serializable {
 	private static final long serialVerionUID = 1L;
@@ -20,6 +22,7 @@ public class TipoOpcao implements Serializable {
 	private Integer id;
 	private String nome;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "tipoOpcao")
 	private List<Opcao> opcoes = new ArrayList<>();
 	

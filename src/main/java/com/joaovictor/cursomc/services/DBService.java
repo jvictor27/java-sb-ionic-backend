@@ -20,6 +20,7 @@ import com.joaovictor.cursomc.domain.PagamentoComBoleto;
 import com.joaovictor.cursomc.domain.PagamentoComCartao;
 import com.joaovictor.cursomc.domain.Pedido;
 import com.joaovictor.cursomc.domain.Produto;
+import com.joaovictor.cursomc.domain.ProdutoVariacao;
 import com.joaovictor.cursomc.domain.TipoOpcao;
 import com.joaovictor.cursomc.domain.enums.EstadoPagamento;
 import com.joaovictor.cursomc.domain.enums.NivelCategoria;
@@ -35,6 +36,7 @@ import com.joaovictor.cursomc.repositories.OpcaoRepository;
 import com.joaovictor.cursomc.repositories.PagamentoRepository;
 import com.joaovictor.cursomc.repositories.PedidoRepository;
 import com.joaovictor.cursomc.repositories.ProdutoRepository;
+import com.joaovictor.cursomc.repositories.ProdutoVariacaoRepository;
 import com.joaovictor.cursomc.repositories.TipoOpcaoRepository;
 
 @Service
@@ -64,11 +66,42 @@ public class DBService {
 	private TipoOpcaoRepository tipoOpcaoRepository;
 	@Autowired
 	private OpcaoRepository opcaoRepository;
+	@Autowired
+	private ProdutoVariacaoRepository produtoVariacaoRepository;
 	
 	@Autowired
 	private ProdutoService produtoService;
 	
 	public void instanciateTestDataBase() throws ParseException {
+		// TipoOpcao e Opcao
+		TipoOpcao tipoOpcao1 = new TipoOpcao(null, "Cor");
+		TipoOpcao tipoOpcao2 = new TipoOpcao(null, "Tamanho");
+		TipoOpcao tipoOpcao3 = new TipoOpcao(null, "Voltagem");
+		TipoOpcao tipoOpcao4 = new TipoOpcao(null, "teste");
+		
+		Opcao opcao1 = new Opcao(null, "Azul", tipoOpcao1);
+		Opcao opcao2 = new Opcao(null, "Vermelho", tipoOpcao1);
+		Opcao opcao3 = new Opcao(null, "Preto", tipoOpcao1);
+		Opcao opcao4 = new Opcao(null, "Amarelo", tipoOpcao1);
+		
+		Opcao opcao5 = new Opcao(null, "P", tipoOpcao2);
+		Opcao opcao6 = new Opcao(null, "PP", tipoOpcao2);
+		Opcao opcao7 = new Opcao(null, "M", tipoOpcao2);
+		Opcao opcao8 = new Opcao(null, "G", tipoOpcao2);
+		Opcao opcao9 = new Opcao(null, "GG", tipoOpcao2);
+		
+		Opcao opcao10 = new Opcao(null, "110V", tipoOpcao3);
+		Opcao opcao11 = new Opcao(null, "220V", tipoOpcao3);
+		Opcao opcao12 = new Opcao(null, "Bivolt", tipoOpcao3);
+		
+		tipoOpcao1.setOpcoes(Arrays.asList(opcao1, opcao2, opcao3, opcao4));
+		tipoOpcao2.setOpcoes(Arrays.asList(opcao5, opcao6, opcao7, opcao8, opcao9));
+		tipoOpcao3.setOpcoes(Arrays.asList(opcao10, opcao11, opcao12));
+		
+		tipoOpcaoRepository.saveAll(Arrays.asList(tipoOpcao1, tipoOpcao2, tipoOpcao3));
+		opcaoRepository.saveAll(Arrays.asList(opcao1, opcao2, opcao3, opcao4, opcao5, opcao6, opcao7, opcao8, opcao9, opcao10, opcao11, opcao12));
+		
+		// Categoria
 		Categoria cat1 = new Categoria(null, "Informática", NivelCategoria.PRIMEIRONIVEL);
 		Categoria cat2 = new Categoria(null, "Móveis", NivelCategoria.PRIMEIRONIVEL);
 		Categoria cat3 = new Categoria(null, "Casa", NivelCategoria.PRIMEIRONIVEL);
@@ -120,7 +153,7 @@ public class DBService {
 		Categoria cat46 = new Categoria(null, "Casual", NivelCategoria.QUARTONIVEL, cat27);
 		Categoria cat47 = new Categoria(null, "Rasteira", NivelCategoria.QUARTONIVEL, cat28);
 		
-		
+		// Produto
 		Produto p1 = new Produto(null, "Computador gamer i7", 2000.00);
 //		Produto p2 = new Produto(null, "Impressora", 800.00);
 		Produto p3 = new Produto(null, "Mouse", 80.00);
@@ -136,8 +169,8 @@ public class DBService {
 		Produto p13 = new Produto(null, "Sapatênis Casual Masculino", 10.00);
 		Produto p14 = new Produto(null, "Blusa Feminina", 10.00);
 		Produto p15 = new Produto(null, "Sapatilha Feminina", 10.00);
-		Produto p16 = new Produto(null, "Produto 16", 10.00);
-		Produto p17 = new Produto(null, "Produto 17", 10.00);
+		Produto p16 = new Produto(null, "Camiseta Masculina Simples", 10.00);
+		Produto p17 = new Produto(null, "Blusa Feminina Renda", 10.00);
 		Produto p18 = new Produto(null, "Produto 18", 10.00);
 		Produto p19 = new Produto(null, "Produto 19", 10.00);
 		Produto p20 = new Produto(null, "Produto 20", 10.00);
@@ -188,7 +221,7 @@ public class DBService {
 		p14.getCategorias().add(cat44);
 		p15.getCategorias().add(cat46);
 		
-		p16.getCategorias().add(cat46);
+		p16.getCategorias().add(cat42);
 		p17.getCategorias().add(cat46);
 		p18.getCategorias().add(cat46);
 		p19.getCategorias().add(cat46);
@@ -223,6 +256,43 @@ public class DBService {
 		p48.getCategorias().add(cat46);
 		p49.getCategorias().add(cat46);
 		p50.getCategorias().add(cat46);
+		
+		ProdutoVariacao pv1 = new ProdutoVariacao(null, "CMSAZP", 5, null, Arrays.asList(opcao1, opcao5));
+		ProdutoVariacao pv2 = new ProdutoVariacao(null, "CMSAZM", 10, null, Arrays.asList(opcao1, opcao7));
+		ProdutoVariacao pv3 = new ProdutoVariacao(null, "CMSAMP", 15, null, Arrays.asList(opcao4, opcao5));
+		ProdutoVariacao pv4 = new ProdutoVariacao(null, "CMSAMG", 20, null, Arrays.asList(opcao4, opcao8));
+		
+//		pv1.setOpcoes(Arrays.asList(opcao1, opcao5));
+//		pv2.setOpcoes(Arrays.asList(opcao1, opcao7));
+//		pv3.setOpcoes(Arrays.asList(opcao4, opcao5));
+//		pv3.setOpcoes(Arrays.asList(opcao4, opcao8));
+		
+		p12.setVariacoes(Arrays.asList(pv1, pv2, pv3, pv4));
+		
+		ProdutoVariacao pv5 = new ProdutoVariacao(null, "BFRAZP", 25, null, Arrays.asList(opcao1, opcao5));
+		ProdutoVariacao pv6 = new ProdutoVariacao(null, "BFRAZM", 30, null, Arrays.asList(opcao1, opcao7));
+		ProdutoVariacao pv7 = new ProdutoVariacao(null, "BFRAMP", 35, null, Arrays.asList(opcao4, opcao5));
+		ProdutoVariacao pv8 = new ProdutoVariacao(null, "BFRAMG", 40, null, Arrays.asList(opcao4, opcao8));
+		
+//		pv5.setOpcoes(Arrays.asList(opcao1, opcao5));
+//		pv6.setOpcoes(Arrays.asList(opcao1, opcao7));
+//		pv7.setOpcoes(Arrays.asList(opcao4, opcao5));
+//		pv8.setOpcoes(Arrays.asList(opcao4, opcao8));
+		
+		p17.setVariacoes(Arrays.asList(pv5, pv6, pv7, pv8));
+		
+		
+		
+		
+		Produto p51 = new Produto(null, "Blusa Feminina Seda", 10.00);
+		p51.setCategorias(Arrays.asList(cat46));
+		
+		ProdutoVariacao pv9 = new ProdutoVariacao(null, "BFSAZP", 25, null, Arrays.asList(opcao1, opcao7));
+		ProdutoVariacao pv10 = new ProdutoVariacao(null, "BFSAZM", 30, null, Arrays.asList(opcao1, opcao7));
+		ProdutoVariacao pv11 = new ProdutoVariacao(null, "BFSAMP", 35, null, Arrays.asList(opcao4, opcao5));
+		ProdutoVariacao pv12 = new ProdutoVariacao(null, "BFSAMG", 40, null, Arrays.asList(opcao4, opcao8));
+		
+		p51.setVariacoes(Arrays.asList(pv9, pv10, pv11, pv12));
 
 		
 //		cat8.getProdutos().addAll(Arrays.asList(p2, p3, p16, p17, p18, p19, p20,
@@ -313,6 +383,9 @@ public class DBService {
 		produtoService.insert(p48);
 		produtoService.insert(p49);
 		produtoService.insert(p50);
+		produtoService.insert(p51);
+		
+//		produtoVariacaoRepository.saveAll(Arrays.asList(pv1, pv2, pv3, pv4, pv5, pv6, pv7, pv8));
 	
 		Estado est1 = new Estado(null, "Minas Gerais");
 		Estado est2 = new Estado(null, "São Paulo");
@@ -372,33 +445,5 @@ public class DBService {
 		p3.getItens().addAll(Arrays.asList(ip2));
 		
 		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
-		
-		
-		// TipoOpcao e Opcao
-		TipoOpcao tipoOpcao1 = new TipoOpcao(null, "Cor");
-		TipoOpcao tipoOpcao2 = new TipoOpcao(null, "Tamanho");
-		TipoOpcao tipoOpcao3 = new TipoOpcao(null, "Voltagem");
-		
-		Opcao opcao1 = new Opcao(null, "Azul", tipoOpcao1);
-		Opcao opcao2 = new Opcao(null, "Vermelho", tipoOpcao1);
-		Opcao opcao3 = new Opcao(null, "Preto", tipoOpcao1);
-		Opcao opcao4 = new Opcao(null, "Amarelo", tipoOpcao1);
-		
-		Opcao opcao5 = new Opcao(null, "P", tipoOpcao2);
-		Opcao opcao6 = new Opcao(null, "PP", tipoOpcao2);
-		Opcao opcao7 = new Opcao(null, "M", tipoOpcao2);
-		Opcao opcao8 = new Opcao(null, "G", tipoOpcao2);
-		Opcao opcao9 = new Opcao(null, "GG", tipoOpcao2);
-		
-		Opcao opcao10 = new Opcao(null, "110V", tipoOpcao3);
-		Opcao opcao11 = new Opcao(null, "220V", tipoOpcao3);
-		Opcao opcao12 = new Opcao(null, "Bivolt", tipoOpcao3);
-		
-		tipoOpcao1.setOpcoes(Arrays.asList(opcao1, opcao2, opcao3, opcao4));
-		tipoOpcao2.setOpcoes(Arrays.asList(opcao5, opcao6, opcao7, opcao8, opcao9));
-		tipoOpcao3.setOpcoes(Arrays.asList(opcao10, opcao11, opcao12));
-		
-		tipoOpcaoRepository.saveAll(Arrays.asList(tipoOpcao1, tipoOpcao2, tipoOpcao3));
-		opcaoRepository.saveAll(Arrays.asList(opcao1, opcao2, opcao3, opcao4, opcao5, opcao6, opcao7, opcao8, opcao9, opcao10, opcao11, opcao12));
 	}
 }

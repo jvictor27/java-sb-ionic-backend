@@ -1,12 +1,15 @@
 package com.joaovictor.cursomc.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -22,6 +25,9 @@ public class Opcao implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="tipoopcao_id")
 	private TipoOpcao tipoOpcao;
+	
+	@ManyToMany(mappedBy = "opcoes")
+	private List<ProdutoVariacao> variacoes = new ArrayList<>();
 	
 	public Opcao() {
 		
@@ -56,6 +62,14 @@ public class Opcao implements Serializable {
 
 	public void setTipoOpcao(TipoOpcao tipoOpcao) {
 		this.tipoOpcao = tipoOpcao;
+	}
+
+	public List<ProdutoVariacao> getVariacoes() {
+		return variacoes;
+	}
+
+	public void setVariacoes(List<ProdutoVariacao> variacoes) {
+		this.variacoes = variacoes;
 	}
 
 	@Override

@@ -12,7 +12,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.joaovictor.cursomc.domain.Categoria;
+import com.joaovictor.cursomc.domain.Opcao;
 import com.joaovictor.cursomc.domain.Produto;
+import com.joaovictor.cursomc.domain.ProdutoVariacao;
 import com.joaovictor.cursomc.dto.CategoriaMostraPaiDTO;
 import com.joaovictor.cursomc.repositories.CategoriaRepository;
 import com.joaovictor.cursomc.repositories.ProdutoRepository;
@@ -31,6 +33,12 @@ public class ProdutoService {
 	@Autowired
 	private CategoriaService CatService;
 	
+	@Autowired
+	private ProdutoVariacaoService produtoVariacaoService;
+	
+	@Autowired
+	private OpcaoService opcaoService;
+	
 	public Produto find(Integer id) {
 		Optional<Produto> obj = repo.findById(id);
 		obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -45,9 +53,14 @@ public class ProdutoService {
 		if (page > 0) {
 			page--;
 		}
+		Page<Produto> produtos;
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		List<Categoria> categorias = CatRepo.findAllById(ids);
-		Page<Produto> produtos = repo.search(nome, categorias, pageRequest);
+		if (categorias != null && categorias.size() > 0) {
+			produtos = repo.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);			
+		} else {
+			produtos = repo.findDistinctByNomeContaining(nome, pageRequest);
+		}
 		
 		for (Produto produto : produtos) {
 			produto = simplifyProdutoCategorias(produto);
@@ -85,7 +98,42 @@ public class ProdutoService {
 		
 		obj.setCategorias(listaCategorias);
 		
-		return repo.save(obj);
+		Produto produto;
+		
+		if (obj.getVariacoes() != null && obj.getVariacoes().size() > 0) {
+			for (ProdutoVariacao variacao : obj.getVariacoes()) {
+				if (produtoVariacaoService.produtoVariacaoCadastrada(variacao)) {
+					throw new DataIntegrityException("Variacao com SKU: " + variacao.getSku() + " já cadastrada.");
+				}
+				
+				if (variacao.getOpcoes() == null || variacao.getOpcoes().size() < 1) {
+					throw new DataIntegrityException("Variacao com SKU: " + variacao.getSku() + ", passe as opçoẽs que compõem a variação.");
+				}
+				
+				opcaoService.validaOpcoes(variacao.getOpcoes());
+				
+			}
+			
+			produto = repo.save(obj);
+			for (ProdutoVariacao variacao : obj.getVariacoes()) {
+				variacao.setProduto(produto);
+			}
+			
+			produtoVariacaoService.saveAll(obj.getVariacoes());
+
+		} else {			
+			produto = repo.save(obj);
+		}
+			
+		return produto;
+	}
+	
+	private void validaOpcoes(List<Opcao> opcoes) {
+		for (Opcao opcao : opcoes) {
+			if (!opcaoService.opcaoIsCadastrada(opcao)) {
+				throw new DataIntegrityException("Opção ID: " + opcao.getId() + " não é uma opção válida.");
+			}
+		}
 	}
 	
 	private List<Categoria> addArvoreCategoriaNoProduto(Categoria categoria) {
