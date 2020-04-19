@@ -36,18 +36,15 @@ public class ProdutoDTO implements Serializable {
 		nome = obj.getNome();
 		preco = obj.getPreco();
 		
-		if (obj.getCategorias() != null && obj.getCategorias().size() > 0) {
-			for (Categoria categoria : obj.getCategorias()) {
-				CategoriaSimplesDTO cat = new CategoriaSimplesDTO(categoria);
-				categorias.add(cat);
-			}
+		for (Categoria categoria : obj.getCategorias()) {
+			CategoriaSimplesDTO cat = new CategoriaSimplesDTO(categoria);
+			categorias.add(cat);
 		}
-		
-		if (obj.getVariacoes() != null && obj.getVariacoes().size() > 0) {
-			for (ProdutoVariacao variacao : obj.getVariacoes()) {
-				variacoes.add(new ProdutoVariacaoSimplesDTO(variacao));
-			}
+	
+		for (ProdutoVariacao variacao : obj.getVariacoes()) {
+			variacoes.add(new ProdutoVariacaoSimplesDTO(variacao));
 		}
+
 	
 	}
 

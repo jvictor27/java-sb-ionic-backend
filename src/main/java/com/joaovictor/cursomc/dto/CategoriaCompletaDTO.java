@@ -34,14 +34,12 @@ public class CategoriaCompletaDTO implements Serializable {
 	public CategoriaCompletaDTO(Categoria obj) {
 		id = obj.getId();
 		nome = obj.getNome();
-		
-		if (obj.getCategoriasFilhas() != null && obj.getCategoriasFilhas().size() > 0) {			
-			for (Categoria categoria : obj.getCategoriasFilhas()) {
-				categoriasFilhas.add(new CategoriaSimplesDTO(categoria));
-			}
+		categoriaPai = (obj.getCategoriaPai() == null) ? null : new CategoriaSimplesDTO(obj.getCategoriaPai());
+					
+		for (Categoria categoria : obj.getCategoriasFilhas()) {
+			categoriasFilhas.add(new CategoriaSimplesDTO(categoria));
 		}
 		
-		categoriaPai = (obj.getCategoriaPai() == null) ? null : new CategoriaSimplesDTO(obj.getCategoriaPai());
 	}
 
 	public Integer getId() {

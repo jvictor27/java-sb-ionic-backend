@@ -32,11 +32,9 @@ public class CategoriaMostraFilhasDTO implements Serializable {
 	public CategoriaMostraFilhasDTO(Categoria obj) {
 		id = obj.getId();
 		nome = obj.getNome();
-
-		if (obj.getCategoriasFilhas() != null && obj.getCategoriasFilhas().size() > 0) {			
-			for (Categoria categoria : obj.getCategoriasFilhas()) {
-				categoriasFilhas.add(new CategoriaSimplesDTO(categoria));
-			}
+			
+		for (Categoria categoria : obj.getCategoriasFilhas()) {
+			categoriasFilhas.add(new CategoriaSimplesDTO(categoria));
 		}
 	}
 
