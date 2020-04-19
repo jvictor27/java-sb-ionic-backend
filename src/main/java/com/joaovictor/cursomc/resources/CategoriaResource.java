@@ -72,14 +72,14 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(value="/page", method=RequestMethod.GET)
-	public ResponseEntity<Page<CategoriaMostraPaiDTO>> findPage(
+	public ResponseEntity<Page<Object>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page,
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
 			@RequestParam(value="direction", defaultValue="ASC") String direction,
 			@RequestParam(value="orderBy", defaultValue="nome") String orderBy,
 			@RequestParam(value="nivel", defaultValue="1") Integer nivel) {
 		Page<Categoria> list = service.findPage(page, linesPerPage, direction, orderBy, nivel);
-		Page<CategoriaMostraPaiDTO> listDto = list.map(obj -> service.toCategoriaSimplesDTO(obj));
+		Page<Object> listDto = list.map(obj -> service.toCategoriaSimplesDTO(obj));
 		return ResponseEntity.ok().body(listDto);
 	}
 }

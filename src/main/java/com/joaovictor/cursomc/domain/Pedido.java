@@ -3,8 +3,10 @@ package com.joaovictor.cursomc.domain;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -42,8 +44,8 @@ public class Pedido implements Serializable{
 	@JoinColumn(name="endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
 	
-	@OneToMany(mappedBy="id.pedido")
-	private Set<ItemPedido> itens = new HashSet<>();
+	@OneToMany(mappedBy="pedido")
+	private List<ItemPedido> itens = new ArrayList<>();
 
 	public Pedido() {
 	}
@@ -105,11 +107,11 @@ public class Pedido implements Serializable{
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
 	
-	public Set<ItemPedido> getItens() {
+	public List<ItemPedido> getItens() {
 		return itens;
 	}
 
-	public void setItens(Set<ItemPedido> itens) {
+	public void setItens(List<ItemPedido> itens) {
 		this.itens = itens;
 	}
 

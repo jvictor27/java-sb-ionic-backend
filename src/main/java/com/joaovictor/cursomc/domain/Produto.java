@@ -27,6 +27,7 @@ public class Produto implements Serializable {
 	private Integer id;
 	private String nome;
 	private Double preco;
+	private Integer quantidade = 0;
 	
 //	@JsonIgnore
 	@ManyToMany
@@ -38,7 +39,7 @@ public class Produto implements Serializable {
 	private List<Categoria> categorias = new ArrayList<>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="id.produto")
+	@OneToMany(mappedBy="produto")
 	private Set<ItemPedido> itens = new HashSet<>();
 	
 	@OneToMany(mappedBy = "produto")
@@ -47,11 +48,12 @@ public class Produto implements Serializable {
 	public Produto() {
 	}
 
-	public Produto(Integer id, String nome, Double preco) {
+	public Produto(Integer id, String nome, Double preco, List<ProdutoVariacao> variacoes) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
+		this.variacoes = variacoes;
 	}
 	
 	@JsonIgnore
@@ -109,6 +111,14 @@ public class Produto implements Serializable {
 
 	public void setVariacoes(List<ProdutoVariacao> variacoes) {
 		this.variacoes = variacoes;
+	}
+
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
 	}
 
 	@Override

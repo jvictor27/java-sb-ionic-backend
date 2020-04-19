@@ -154,56 +154,56 @@ public class DBService {
 		Categoria cat47 = new Categoria(null, "Rasteira", NivelCategoria.QUARTONIVEL, cat28);
 		
 		// Produto
-		Produto p1 = new Produto(null, "Computador gamer i7", 2000.00);
+		Produto p1 = new Produto(null, "Computador gamer i7", 2000.00, null);
 //		Produto p2 = new Produto(null, "Impressora", 800.00);
-		Produto p3 = new Produto(null, "Mouse", 80.00);
-		Produto p4 = new Produto(null, "Mesa de escritório", 300.00);
-		Produto p5 = new Produto(null, "Toalha", 50.00);
-		Produto p6 = new Produto(null, "Colcha", 200.00);
-		Produto p7 = new Produto(null, "TV true color", 1200.00);
-		Produto p8 = new Produto(null, "Roçadeira", 800.00);
-		Produto p9 = new Produto(null, "Abajour", 100.00);
-		Produto p10 = new Produto(null, "Luminária", 180.00);
+		Produto p3 = new Produto(null, "Mouse", 80.00, null);
+		Produto p4 = new Produto(null, "Mesa de escritório", 300.00, null);
+		Produto p5 = new Produto(null, "Toalha", 50.00, null);
+		Produto p6 = new Produto(null, "Colcha", 200.00, null);
+		Produto p7 = new Produto(null, "TV true color", 1200.00, null);
+		Produto p8 = new Produto(null, "Roçadeira", 800.00, null);
+		Produto p9 = new Produto(null, "Abajour", 100.00, null);
+		Produto p10 = new Produto(null, "Luminária", 180.00, null);
 //		Produto p11 = new Produto(null, "Shampoo", 90.00);
-		Produto p12 = new Produto(null, "Camisa Regata Masculina", 10.00);
-		Produto p13 = new Produto(null, "Sapatênis Casual Masculino", 10.00);
-		Produto p14 = new Produto(null, "Blusa Feminina", 10.00);
-		Produto p15 = new Produto(null, "Sapatilha Feminina", 10.00);
-		Produto p16 = new Produto(null, "Camiseta Masculina Simples", 10.00);
-		Produto p17 = new Produto(null, "Blusa Feminina Renda", 10.00);
-		Produto p18 = new Produto(null, "Produto 18", 10.00);
-		Produto p19 = new Produto(null, "Produto 19", 10.00);
-		Produto p20 = new Produto(null, "Produto 20", 10.00);
-		Produto p21 = new Produto(null, "Produto 21", 10.00);
-		Produto p22 = new Produto(null, "Produto 22", 10.00);
-		Produto p23 = new Produto(null, "Produto 23", 10.00);
-		Produto p24 = new Produto(null, "Produto 24", 10.00);
-		Produto p25 = new Produto(null, "Produto 25", 10.00);
-		Produto p26 = new Produto(null, "Produto 26", 10.00);
-		Produto p27 = new Produto(null, "Produto 27", 10.00);
-		Produto p28 = new Produto(null, "Produto 28", 10.00);
-		Produto p29 = new Produto(null, "Produto 29", 10.00);
-		Produto p30 = new Produto(null, "Produto 30", 10.00);
-		Produto p31 = new Produto(null, "Produto 31", 10.00);
-		Produto p32 = new Produto(null, "Produto 32", 10.00);
-		Produto p33 = new Produto(null, "Produto 33", 10.00);
-		Produto p34 = new Produto(null, "Produto 34", 10.00);
-		Produto p35 = new Produto(null, "Produto 35", 10.00);
-		Produto p36 = new Produto(null, "Produto 36", 10.00);
-		Produto p37 = new Produto(null, "Produto 37", 10.00);
-		Produto p38 = new Produto(null, "Produto 38", 10.00);
-		Produto p39 = new Produto(null, "Produto 39", 10.00);
-		Produto p40 = new Produto(null, "Produto 40", 10.00);
-		Produto p41 = new Produto(null, "Produto 41", 10.00);
-		Produto p42 = new Produto(null, "Produto 42", 10.00);
-		Produto p43 = new Produto(null, "Produto 43", 10.00);
-		Produto p44 = new Produto(null, "Produto 44", 10.00);
-		Produto p45 = new Produto(null, "Produto 45", 10.00);
-		Produto p46 = new Produto(null, "Produto 46", 10.00);
-		Produto p47 = new Produto(null, "Produto 47", 10.00);
-		Produto p48 = new Produto(null, "Produto 48", 10.00);
-		Produto p49 = new Produto(null, "Produto 49", 10.00);
-		Produto p50 = new Produto(null, "Produto 50", 10.00);
+		Produto p12 = new Produto(null, "Camisa Regata Masculina", 10.00, null);
+		Produto p13 = new Produto(null, "Sapatênis Casual Masculino", 10.00, null);
+		Produto p14 = new Produto(null, "Blusa Feminina", 10.00, null);
+		Produto p15 = new Produto(null, "Sapatilha Feminina", 10.00, null);
+		Produto p16 = new Produto(null, "Camiseta Masculina Simples", 10.00, null);
+		Produto p17 = new Produto(null, "Blusa Feminina Renda", 10.00, null);
+		Produto p18 = new Produto(null, "Produto 18", 10.00, null);
+		Produto p19 = new Produto(null, "Produto 19", 10.00, null);
+		Produto p20 = new Produto(null, "Produto 20", 10.00, null);
+		Produto p21 = new Produto(null, "Produto 21", 10.00, null);
+		Produto p22 = new Produto(null, "Produto 22", 10.00, null);
+		Produto p23 = new Produto(null, "Produto 23", 10.00, null);
+		Produto p24 = new Produto(null, "Produto 24", 10.00, null);
+		Produto p25 = new Produto(null, "Produto 25", 10.00, null);
+		Produto p26 = new Produto(null, "Produto 26", 10.00, null);
+		Produto p27 = new Produto(null, "Produto 27", 10.00, null);
+		Produto p28 = new Produto(null, "Produto 28", 10.00, null);
+		Produto p29 = new Produto(null, "Produto 29", 10.00, null);
+		Produto p30 = new Produto(null, "Produto 30", 10.00, null);
+		Produto p31 = new Produto(null, "Produto 31", 10.00, null);
+		Produto p32 = new Produto(null, "Produto 32", 10.00, null);
+		Produto p33 = new Produto(null, "Produto 33", 10.00, null);
+		Produto p34 = new Produto(null, "Produto 34", 10.00, null);
+		Produto p35 = new Produto(null, "Produto 35", 10.00, null);
+		Produto p36 = new Produto(null, "Produto 36", 10.00, null);
+		Produto p37 = new Produto(null, "Produto 37", 10.00, null);
+		Produto p38 = new Produto(null, "Produto 38", 10.00, null);
+		Produto p39 = new Produto(null, "Produto 39", 10.00, null);
+		Produto p40 = new Produto(null, "Produto 40", 10.00, null);
+		Produto p41 = new Produto(null, "Produto 41", 10.00, null);
+		Produto p42 = new Produto(null, "Produto 42", 10.00, null);
+		Produto p43 = new Produto(null, "Produto 43", 10.00, null);
+		Produto p44 = new Produto(null, "Produto 44", 10.00, null);
+		Produto p45 = new Produto(null, "Produto 45", 10.00, null);
+		Produto p46 = new Produto(null, "Produto 46", 10.00, null);
+		Produto p47 = new Produto(null, "Produto 47", 10.00, null);
+		Produto p48 = new Produto(null, "Produto 48", 10.00, null);
+		Produto p49 = new Produto(null, "Produto 49", 10.00, null);
+		Produto p50 = new Produto(null, "Produto 50", 10.00, null);
 		
 		p1.getCategorias().addAll(Arrays.asList(cat30));
 //		p2.getCategorias().addAll(Arrays.asList(cat8));
@@ -267,7 +267,9 @@ public class DBService {
 //		pv3.setOpcoes(Arrays.asList(opcao4, opcao5));
 //		pv3.setOpcoes(Arrays.asList(opcao4, opcao8));
 		
+		Integer quantidade = pv1.getQuantidade() + pv2.getQuantidade() + pv3.getQuantidade() + pv4.getQuantidade();
 		p12.setVariacoes(Arrays.asList(pv1, pv2, pv3, pv4));
+		p12.setQuantidade(quantidade);
 		
 		ProdutoVariacao pv5 = new ProdutoVariacao(null, "BFRAZP", 25, null, Arrays.asList(opcao1, opcao5));
 		ProdutoVariacao pv6 = new ProdutoVariacao(null, "BFRAZM", 30, null, Arrays.asList(opcao1, opcao7));
@@ -278,13 +280,14 @@ public class DBService {
 //		pv6.setOpcoes(Arrays.asList(opcao1, opcao7));
 //		pv7.setOpcoes(Arrays.asList(opcao4, opcao5));
 //		pv8.setOpcoes(Arrays.asList(opcao4, opcao8));
-		
+		quantidade = pv5.getQuantidade() + pv6.getQuantidade() + pv7.getQuantidade() + pv8.getQuantidade();
 		p17.setVariacoes(Arrays.asList(pv5, pv6, pv7, pv8));
+		p17.setQuantidade(quantidade);
 		
 		
 		
 		
-		Produto p51 = new Produto(null, "Blusa Feminina Seda", 10.00);
+		Produto p51 = new Produto(null, "Blusa Feminina Seda", 10.00, null);
 		p51.setCategorias(Arrays.asList(cat46));
 		
 		ProdutoVariacao pv9 = new ProdutoVariacao(null, "BFSAZP", 25, null, Arrays.asList(opcao1, opcao7));
@@ -292,7 +295,9 @@ public class DBService {
 		ProdutoVariacao pv11 = new ProdutoVariacao(null, "BFSAMP", 35, null, Arrays.asList(opcao4, opcao5));
 		ProdutoVariacao pv12 = new ProdutoVariacao(null, "BFSAMG", 40, null, Arrays.asList(opcao4, opcao8));
 		
+		quantidade = pv9.getQuantidade() + pv10.getQuantidade() + pv11.getQuantidade() + pv12.getQuantidade();
 		p51.setVariacoes(Arrays.asList(pv9, pv10, pv11, pv12));
+		p51.setQuantidade(quantidade);
 
 		
 //		cat8.getProdutos().addAll(Arrays.asList(p2, p3, p16, p17, p18, p19, p20,

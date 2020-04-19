@@ -101,6 +101,7 @@ public class ProdutoService {
 		Produto produto;
 		
 		if (obj.getVariacoes() != null && obj.getVariacoes().size() > 0) {
+			Integer quantidade = 0;
 			for (ProdutoVariacao variacao : obj.getVariacoes()) {
 				if (produtoVariacaoService.produtoVariacaoCadastrada(variacao)) {
 					throw new DataIntegrityException("Variacao com SKU: " + variacao.getSku() + " já cadastrada.");
@@ -111,9 +112,9 @@ public class ProdutoService {
 				}
 				
 				opcaoService.validaOpcoes(variacao.getOpcoes());
-				
+				quantidade += variacao.getQuantidade();
 			}
-			
+			obj.setQuantidade(quantidade);
 			produto = repo.save(obj);
 			for (ProdutoVariacao variacao : obj.getVariacoes()) {
 				variacao.setProduto(produto);
@@ -144,6 +145,17 @@ public class ProdutoService {
 		}
 		
 		return listaCategorias;
+	}
+	
+	public void atualizaQuantidade(Produto obj, Integer qtdDecremento) {
+		Produto produto = find(obj.getId());
+		Integer novaQuantidade = produto.getQuantidade() - qtdDecremento;
+		
+		if (novaQuantidade < 0) throw new DataIntegrityException("Variação ID: " + produto.getId() + 
+				" a quantidade passada para o estoque deve ser ser no mínimo 0: " + obj.getQuantidade());
+		
+		produto.setQuantidade(novaQuantidade);
+		repo.save(produto);
 	}
 
 }

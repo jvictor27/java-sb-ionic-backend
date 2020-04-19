@@ -14,12 +14,15 @@ import com.joaovictor.cursomc.domain.Cliente;
 import com.joaovictor.cursomc.domain.ItemPedido;
 import com.joaovictor.cursomc.domain.PagamentoComBoleto;
 import com.joaovictor.cursomc.domain.Pedido;
+import com.joaovictor.cursomc.domain.Produto;
+import com.joaovictor.cursomc.domain.ProdutoVariacao;
 import com.joaovictor.cursomc.domain.enums.EstadoPagamento;
 import com.joaovictor.cursomc.repositories.ItemPedidoRepository;
 import com.joaovictor.cursomc.repositories.PagamentoRepository;
 import com.joaovictor.cursomc.repositories.PedidoRepository;
 import com.joaovictor.cursomc.secutiry.UserSS;
 import com.joaovictor.cursomc.services.exceptions.AuthorizationException;
+import com.joaovictor.cursomc.services.exceptions.DataIntegrityException;
 import com.joaovictor.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -44,6 +47,9 @@ public class PedidoService {
 	private ClienteService clienteService;
 	
 	@Autowired
+	private ProdutoVariacaoService produtoVariacaoService; 
+	
+	@Autowired
 	private InterfaceEmailService interfaceEmailService;
 	
 	public Pedido find(Integer id) {
@@ -53,7 +59,7 @@ public class PedidoService {
 	}
 	
 	@Transactional
-	public Pedido insert(Pedido obj) {
+	public Pedido insert(Pedido obj) throws CloneNotSupportedException {
 		obj.setId(null);
 		obj.setInstante(new Date());
 		obj.setCliente(clienteService.find(obj.getCliente().getId()));
@@ -63,14 +69,23 @@ public class PedidoService {
 			PagamentoComBoleto pagto = (PagamentoComBoleto) obj.getPagamento();
 			boletoService.preencherPagamentoComBoleto(pagto, obj.getInstante());
 		}
+		
 		obj = repo.save(obj);
 		pagamentoRepository.save(obj.getPagamento());
 		for (ItemPedido ip : obj.getItens()) {
+			validaItemPedido(ip);
 			ip.setDesconto(0.0);
 			ip.setProduto(produtoService.find(ip.getProduto().getId()));
 			ip.setPreco(ip.getProduto().getPreco());
 			ip.setPedido(obj);
+			
+			if (ip.getVariacao() != null) {
+				produtoVariacaoService.atualizaQuantidade(ip.getVariacao(), ip.getQuantidade());
+			}
+			produtoService.atualizaQuantidade(ip.getProduto(), ip.getQuantidade());
 		}
+		
+		
 		itemPedidoRepository.saveAll(obj.getItens());
 		// interfaceEmailService.sendOrderConfirmationEmail(obj);
 		interfaceEmailService.sendOrderConfirmationHtmlEmail(obj);
@@ -87,4 +102,36 @@ public class PedidoService {
 		return repo.findByCliente(cliente, pageRequest);
 	}
 	
+	private void validaItemPedido(ItemPedido itemPedido) {
+		Produto produto = itemPedido.getProduto();
+		ProdutoVariacao produtoVariacao = itemPedido.getVariacao();
+		Produto produtoAux = produtoService.find(produto.getId());
+		
+		if (produtoVariacao == null) {
+			if (produtoAux.getVariacoes() != null && produtoAux.getVariacoes().size() > 0) {
+				throw new DataIntegrityException("Variação ID: " + produtoAux.getId() + 
+						" tem variações, defina uma varição para esse ItemProduto.Produto.");
+			}
+			
+			if (itemPedido.getQuantidade() == null || itemPedido.getQuantidade() < 1) throw new DataIntegrityException("Variação ID: " + produtoAux.getId() + 
+					" a quantidade deve ser maior que 0.");
+			if (produtoAux.getQuantidade() < itemPedido.getQuantidade()) throw new DataIntegrityException("Variação ID: " + produtoAux.getId() + 
+					" a quantidade passada ultrapassa o valor em estoque. Quantidade disponível: " + produtoAux.getQuantidade());
+		} else {
+			ProdutoVariacao produtoVariacaoAux = produtoVariacaoService.find(produtoVariacao.getId());
+			if (!produtoVariacaoAux.getProduto().equals(produto)) throw new DataIntegrityException("Variação SKU: " + produtoVariacaoAux.getSku() + 
+				" não pertenece ao produto ID: " + produto.getId() + ".");
+			
+			if (itemPedido.getQuantidade() == null || itemPedido.getQuantidade() < 1) throw new DataIntegrityException("Variação SKU: " + produtoVariacaoAux.getSku() + 
+					" a quantidade deve ser maior que 0.");
+			
+			if (produtoVariacaoAux.getQuantidade() < itemPedido.getQuantidade()) throw new DataIntegrityException("Variação SKU: " + produtoVariacaoAux.getSku() + 
+					" a quantidade passada ultrapassa o valor em estoque. Quantidade disponível: " + produtoVariacaoAux.getQuantidade());
+		}
+		
+		
+			
+		
+		
+	}
 }
